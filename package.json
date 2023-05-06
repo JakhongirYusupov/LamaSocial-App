@@ -1,0 +1,32 @@
+{
+  "dependencies": {
+    "apollo-server-express": "^3.12.0",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "graphql": "^16.6.0",
+    "graphql-upload": "^13.0.0",
+    "jsonwebtoken": "^9.0.0",
+    "nodemon": "^2.0.22",
+    "pg": "^8.10.0"
+  },
+  "name": "exam_4_month",
+  "description": "\"# LamaSocial-App\"",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "config.js",
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JakhongirYusupov/LamaSocial-App.git"
+  },
+  "keywords": [],
+  "author": "Jakhogir Yusupov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JakhongirYusupov/LamaSocial-App/issues"
+  },
+  "homepage": "https://github.com/JakhongirYusupov/LamaSocial-App#readme"
+}

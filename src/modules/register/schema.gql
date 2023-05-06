@@ -1,0 +1,7 @@
+type Query {
+  register: String
+}
+
+type Mutation {
+  register(username: String!, email: Email!, password: Password!): Response!
+}
