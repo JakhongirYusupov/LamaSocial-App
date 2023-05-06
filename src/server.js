@@ -22,7 +22,7 @@ import schema from "./modules/index.js";
     schema,
     plugins: [
       ApolloServerPluginDrainHttpServer({ httpServer }),
-      ApolloServerPluginLandingPageGraphQLPlayground(),
+      // ApolloServerPluginLandingPageGraphQLPlayground(),
     ],
   });
 

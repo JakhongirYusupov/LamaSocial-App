@@ -1,9 +1,18 @@
 scalar Any
 scalar Email
 scalar Password
+scalar Media
+scalar Image
+
+type User {
+  id: Int!
+  username: String!
+  email: String!
+  avatar_url: Image!
+}
 
 type Response {
   status: Int!
   message: String!
-  data: Any
+  data: User
 }

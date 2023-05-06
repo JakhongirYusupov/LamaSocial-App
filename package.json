@@ -7,7 +7,9 @@
     "graphql-upload": "^13.0.0",
     "jsonwebtoken": "^9.0.0",
     "nodemon": "^2.0.22",
-    "pg": "^8.10.0"
+    "pg": "^8.10.0",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.31.1"
   },
   "name": "exam_4_month",
   "description": "\"# LamaSocial-App\"",
