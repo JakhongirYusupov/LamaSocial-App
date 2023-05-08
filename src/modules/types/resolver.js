@@ -40,8 +40,6 @@ function mediaTest(value) {
 
 function imageTest(value) {
   const { file } = value;
-  console.log(value);
-  console.log(file);
   if (!["image/jpeg", "image/png", "image/jpg"].includes(file.mimetype)) {
     throw new Error("Media must be jpeg, png or jpg");
   }

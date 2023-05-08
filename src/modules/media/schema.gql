@@ -1,5 +1,6 @@
 type Query {
   getMedia(user_id: Int): MediaResponse!
+  getOwnMedia: MediaResponse!
 }
 
 type Upload {

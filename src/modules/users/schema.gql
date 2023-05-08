@@ -1,0 +1,12 @@
+type Query {
+  getUsers: [User]
+}
+
+type Mutation {
+  updateUser(
+    username: String
+    email: Email
+    password: Password
+    avatar_url: Image
+  ): Response!
+}

@@ -3,14 +3,11 @@ import path from "path";
 import fs from "fs";
 import { Uploads } from "../../models/files.js";
 import { tokenVerify } from "../../utils/tokenVerify.js";
+import { jwtverify } from "../../utils/jwt.js";
 
 export default {
   Query: {
-    getMedia: async (_, args) => {
-      const { user_id } = args;
-      console.log(user_id);
-      if (user_id) {
-      }
+    getMedia: async () => {
       const media = await Uploads.findAll({
         attributes: ["id", "url", "desc", "likes", "created_at", "user_id"],
       });
@@ -18,6 +15,28 @@ export default {
         status: 200,
         message: "Success!",
         data: media.map((el) => el.dataValues),
+      };
+    },
+    getOwnMedia: async (_, args, context) => {
+      const { token } = context;
+      if (token) {
+        const user = jwtverify(token, context);
+        if (!user)
+          return {
+            status: 400,
+            message: "You are not login!",
+          };
+
+        const media = await Uploads.findAll({ where: { user_id: user.id } });
+        return {
+          status: 200,
+          message: "okay",
+          data: media.map((el) => el.dataValues),
+        };
+      }
+      return {
+        status: 400,
+        message: "You are not login!",
       };
     },
   },
