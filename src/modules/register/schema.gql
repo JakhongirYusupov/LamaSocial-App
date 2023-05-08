@@ -1,5 +1,11 @@
+type Login {
+  status: Int!
+  message: String!
+  token: Any
+}
+
 type Query {
-  register: String
+  login(email: Email!, password: Password!): Login!
 }
 
 type Mutation {

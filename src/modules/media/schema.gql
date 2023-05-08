@@ -1,0 +1,22 @@
+type Query {
+  getMedia(user_id: Int): MediaResponse!
+}
+
+type Upload {
+  id: Int!
+  url: String!
+  desc: String!
+  likes: Int!
+  created_at: String!
+  user_id: Int!
+}
+
+type MediaResponse {
+  status: Int!
+  message: String!
+  data: [Upload]
+}
+
+type Mutation {
+  createMedia(desc: String!, file: Media!): MediaResponse!
+}
