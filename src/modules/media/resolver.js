@@ -43,7 +43,7 @@ export default {
 
   Mutation: {
     createMedia: async (_, args, context) => {
-      const user = await tokenVerify(token, context);
+      const user = await tokenVerify(context);
       if (!user)
         return {
           status: 400,
