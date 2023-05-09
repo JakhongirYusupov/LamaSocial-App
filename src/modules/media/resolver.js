@@ -43,65 +43,99 @@ export default {
 
   Mutation: {
     createMedia: async (_, args, context) => {
-      const { token } = context;
-      if (token) {
-        const user = await tokenVerify(token, context);
-        if (!user)
-          return {
-            status: 400,
-            message: "You are not login!",
-          };
+      const user = await tokenVerify(token, context);
+      if (!user)
+        return {
+          status: 400,
+          message: "You are not login!",
+        };
 
-        const { desc, file } = args;
-        const foundMedia = await Uploads.findOne({
-          where: { desc, user_id: user.dataValues.id },
-        });
+      const { desc, file } = args;
+      const foundMedia = await Uploads.findOne({
+        where: { desc, user_id: user.dataValues.id },
+      });
 
-        if (foundMedia)
-          return {
-            status: 400,
-            message: "This post already create",
-          };
+      if (foundMedia)
+        return {
+          status: 400,
+          message: "This post already create",
+        };
 
-        const { filename, createReadStream } = file.file;
-        const fileUrl = `uploads/${uuidv4()}${path.extname(filename)}`;
-        const stream = createReadStream();
-        const fileAddress = path.join(process.cwd(), "uploads", fileUrl);
-        const out = fs.createWriteStream(fileAddress);
-        stream.pipe(out);
+      const { filename, createReadStream } = file.file;
+      const fileUrl = `uploads/${uuidv4()}${path.extname(filename)}`;
+      const stream = createReadStream();
+      const fileAddress = path.join(process.cwd(), "uploads", fileUrl);
+      const out = fs.createWriteStream(fileAddress);
+      stream.pipe(out);
 
-        const media = await Uploads.create({
-          user_id: user.dataValues.id,
-          url: fileUrl,
-          desc,
-          likes: 0,
-        });
+      const media = await Uploads.create({
+        user_id: user.dataValues.id,
+        url: fileUrl,
+        desc,
+        likes: 0,
+      });
 
-        if (media) {
-          const {
-            dataValues: { id, url, desc, likes, created_at, user_id },
-          } = media;
-          return {
-            status: 200,
-            message: "Media successfull create!",
-            data: [
-              {
-                id,
-                url,
-                desc,
-                likes,
-                created_at,
-                user_id,
-              },
-            ],
-          };
-        }
+      if (media) {
+        const {
+          dataValues: { id, url, desc, likes, created_at, user_id },
+        } = media;
+        return {
+          status: 200,
+          message: "Media successfull create!",
+          data: [
+            {
+              id,
+              url,
+              desc,
+              likes,
+              created_at,
+              user_id,
+            },
+          ],
+        };
       }
 
       return {
         status: 400,
         message: "You are not login!",
       };
+    },
+    updateLike: async (_, args, context) => {
+      const user = jwtverify(context.token, context);
+      if (!user)
+        return {
+          status: 200,
+          message: "You are not login",
+        };
+      const { media_id } = args;
+      const foundMedia = await Uploads.findOne({ where: { id: media_id } });
+      if (!foundMedia)
+        return {
+          status: 404,
+          message: "Media not found",
+        };
+      let { likes } = foundMedia.dataValues;
+      const updateMedia = await Uploads.update(
+        { likes: ++likes },
+        { where: { id: media_id } }
+      );
+
+      const updateFoundMedia = await Uploads.findOne({
+        attributes: ["id", "url", "desc", "likes", "created_at", "user_id"],
+        where: { id: media_id },
+      });
+
+      if (updateMedia[0] === 1)
+        return {
+          status: 200,
+          message: "Success",
+          data: [updateFoundMedia.dataValues],
+        };
+      else
+        return {
+          status: 400,
+          message: "Internal server Error",
+        };
     },
   },
 };

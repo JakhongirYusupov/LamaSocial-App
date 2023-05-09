@@ -69,5 +69,36 @@ export default {
         message: "Internal server error",
       };
     },
+    updateOnline: async (_, args, context) => {
+      const user = jwtverify(context.token, context);
+      if (!user)
+        return {
+          status: 400,
+          message: "You are not login",
+        };
+
+      const updateUser = await Users.update(
+        {
+          online: args.active,
+        },
+        { where: { id: user.id } }
+      );
+
+      if (updateUser[0] === 1) {
+        const foundUser = await Users.findOne({
+          attributes: ["id", "username", "email", "online", "avatar_url"],
+          where: { id: user.id },
+        });
+        return {
+          status: 200,
+          message: "Success",
+          data: foundUser.dataValues,
+        };
+      } else
+        return {
+          status: 200,
+          message: "Success!",
+        };
+    },
   },
 };

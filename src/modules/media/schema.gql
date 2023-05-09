@@ -20,4 +20,5 @@ type MediaResponse {
 
 type Mutation {
   createMedia(desc: String!, file: Media!): MediaResponse!
+  updateLike(media_id: Int!): MediaResponse!
 }

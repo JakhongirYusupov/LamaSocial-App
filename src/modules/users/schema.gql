@@ -9,4 +9,6 @@ type Mutation {
     password: Password
     avatar_url: Image
   ): Response!
+
+  updateOnline(active: Boolean!): Response!
 }
